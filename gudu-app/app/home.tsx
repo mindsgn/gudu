@@ -133,7 +133,7 @@ export default function Home() {
 
       </View>
 
-      {data.continueTarget.reason === "resume" ? (
+      {data && data.continueTarget && data.continueTarget.reason === "resume" ? (
         <Button
           accessibilityLabel="Continue learning"
           backgroundColor={colors.accent}
