@@ -1,5 +1,5 @@
 export const colors = {
-  background: '#F2F4F5',
+  background: '#000000',
   surface: '#15161A',
   buttonBackground: '#15161A',
   buttonTextBackground: '#F2F4F5',
@@ -11,4 +11,3 @@ export const colors = {
   textSecondary: '#9CA3AF',
   border: '#1F1F1F',
 };
-
