@@ -1,0 +1,8 @@
+appId: mindsgn.studio.backend
+---
+- launchApp
+- assertVisible: "GUDU"
+- assertVisible:
+    id: "course-card-backend"
+- assertVisible:
+    id: "course-card-frontend"

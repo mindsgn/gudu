@@ -22,6 +22,7 @@ interface IScrollProgress extends ScrollViewProps {
   readonly fabStyle?: StyleProp<ViewStyle>;
   readonly fabButtonStyle?: StyleProp<ViewStyle>;
   readonly onScrollProgressChange?: (progress: number) => void;
+  readonly onScrollMetricsChange?: (progress: number, offset: number) => void;
   readonly onEndReached?: () => void;
   readonly onEndReset?: () => void;
 }

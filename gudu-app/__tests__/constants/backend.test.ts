@@ -5,15 +5,15 @@ describe("constants/backend", () => {
     expect(typeof content).toBe("string");
   });
 
-  it("contains HTTP lesson content", () => {
-    expect(content).toContain("HTTP");
-    expect(content).toContain("HyperText Transfer Protocol");
+  it("contains normalized backend lesson content", () => {
+    expect(content).toContain("How Computers Represent Information");
+    expect(content).toContain("Estimated study time");
   });
 
   it("contains section headers", () => {
-    expect(content).toContain("## What is HTTP?");
-    expect(content).toContain("## Why does HTTP exist?");
-    expect(content).toContain("## Core Concepts");
+    expect(content).toContain("## 1. Chapter Introduction");
+    expect(content).toContain("## 2. Fundamental Concepts");
+    expect(content).toContain("## 13. Summary");
   });
 
   it("is a non-empty string", () => {

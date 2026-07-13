@@ -2,51 +2,76 @@
 
 ```
 gudu-app/
-├── app/                    # Expo Router routes (file-based)
-│   ├── _layout.tsx         # Root layout (SQLite, GestureHandler, Stack)
-│   ├── index.tsx           # Splash screen
-│   ├── home.tsx            # Home screen
-│   ├── backend.tsx         # Course list
-│   ├── lesson.tsx          # Lesson reader
-│   └── complete.tsx        # Completion screen
+├── app/
+│   ├── _layout.tsx
+│   ├── index.tsx
+│   ├── home.tsx
+│   ├── course.tsx
+│   ├── backend.tsx
+│   ├── lesson.tsx
+│   └── complete.tsx
 │
 ├── components/
-│   └── shared/             # Simple shared UI primitives
-│       └── pressable-card.tsx
+│   └── shared/
+│       ├── pressable-card.tsx
+│       ├── state-panel.tsx
+│       ├── course-card.tsx
+│       └── lesson-list-item.tsx
 │
 ├── shared/
-│   └── ui/                 # Complex reusable UI organisms
-│       ├── micro-interactions/  # Scroll progress
-│       └── organisms/      # Skia blocks, animated header, circular progress
+│   └── ui/
+│       ├── micro-interactions/
+│       │   └── animated-scroll-progress/
+│       └── organisms/
+│           ├── activity-heatmap/
+│           ├── animated-header-scrollview/
+│           ├── block/
+│           └── circular-progress/
 │
 ├── db/
-│   ├── schema.ts           # Drizzle table definitions
-│   └── client.ts           # Database connection
+│   ├── schema.ts
+│   ├── client.ts
+│   └── learning.ts
 │
-├── drizzle/                # Generated SQL migrations
+├── drizzle/
+│   ├── migrations.js
+│   └── *.sql
 │
-├── lib/                    # Pure business logic (no React)
-│   └── haptics.ts          # Haptic feedback utilities
+├── lib/
+│   ├── activity-heatmap.ts
+│   ├── continue-target.ts
+│   ├── haptics.ts
+│   ├── lesson-progress.ts
+│   ├── points.ts
+│   └── streaks.ts
 │
-├── theme/                  # Design tokens
-│   ├── colors.ts
-│   └── typography.ts
-│
-├── constants/              # Static data
+├── constants/
 │   ├── index.ts
-│   └── backend.ts          # Backend course content
+│   ├── backend.ts
+│   └── curriculum.ts
 │
-├── @types/                 # Shared TypeScript types
+├── @types/
 │   └── index.ts
 │
-└── assets/                 # Images, icons, splash
+├── __tests__/
+│   ├── app/
+│   ├── lib/
+│   ├── shared/
+│   ├── constants/
+│   └── theme/
+│
+├── screens/
+│   └── screen-specifications.md
+│
+└── .maestro/
+    └── *.yaml
 ```
 
 ## Adding New Files
 
 - New route → `app/new-route.tsx`
 - New shared primitive → `components/shared/new-component.tsx`
-- New complex UI → `shared/ui/organisms/new-component/` (index.tsx, types.ts, conf.ts)
-- New lib → `lib/new-thing.ts`
-- New table → `db/schema.ts` (add to existing file)
-- New type → `@types/index.ts` or feature-specific types file
+- New complex UI organism → `shared/ui/organisms/new-component/`
+- New pure helper → `lib/new-helper.ts`
+- New data access helper → `db/new-helper.ts`
+- New shared type → `@types/index.ts` or a colocated feature type file

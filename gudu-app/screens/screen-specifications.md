@@ -3,77 +3,63 @@
 ## Splash Screen (`app/index.tsx`)
 
 **Route:** `/`
-**Purpose:** Loading animation while app initializes
+**Purpose:** Bootstrap migrations and curriculum seed before routing into the dashboard
 
 Layout:
-- Full screen
-- Centered Block Skia animation
-- 2-second display
-- Auto-redirect to `/home` via `router.replace`
-
-Components used:
-- Block (Skia)
+- Centered Block animation
+- Local boot loading state
+- Retry state when bootstrapping fails
 
 ## Home Screen (`app/home.tsx`)
 
 **Route:** `/home`
-**Purpose:** Main entry point with course navigation
+**Purpose:** Show score, streaks, heatmap, continue CTA, and both courses
 
 Layout:
-- AnimatedHeaderScrollView with "home" title
-- FlashList with course navigation buttons
+- Animated header
+- Score/streak summary card
+- Continue button when a lesson target exists
+- Activity heatmap
+- Course cards for backend and frontend
 
-Components used:
-- AnimatedHeaderScrollView
-- FlashList
-- Button (PressableCard)
+## Course Screen (`app/course.tsx`)
 
-## Backend Course List (`app/backend.tsx`)
+**Route:** `/course`
+**Params:** `courseSlug`
+**Purpose:** Show ordered modules and lessons for one course
+
+Layout:
+- Animated header
+- Course summary card
+- Continue button for the course
+- Flattened module headers + lesson rows
+
+## Backend Redirect (`app/backend.tsx`)
 
 **Route:** `/backend`
-**Purpose:** Display list of backend development topics
-
-Layout:
-- AnimatedHeaderScrollView with "Backend" title and subtitle
-- FlashList of 11 course topics
-- Each item is a Button linking to `/lesson`
-
-Components used:
-- AnimatedHeaderScrollView
-- FlashList
-- Button (PressableCard)
+**Purpose:** Redirect legacy backend navigation to `/course?courseSlug=backend`
 
 ## Lesson Screen (`app/lesson.tsx`)
 
 **Route:** `/lesson`
-**Purpose:** Read course content with progress tracking
+**Params:** `lessonId`
+**Purpose:** Render markdown, track reading progress, restore scroll position, and complete at 100 percent
 
 Layout:
-- Scrollable markdown content
-- AnimatedScrollProgress FAB with title and progress indicator
-- CircularProgress indicator on FAB
-- Auto-navigate to `/complete` at 100% scroll
-
-Components used:
-- AnimatedScrollProgress
-- CircularProgress
-- EnrichedMarkdownText
-
-Data:
-- Content from `constants/backend.ts` (HTTP lesson markdown)
+- Floating progress FAB
+- Course/module context
+- Markdown lesson body
+- Completion routing at full scroll
 
 ## Completion Screen (`app/complete.tsx`)
 
 **Route:** `/complete`
-**Purpose:** Show lesson completion (placeholder)
+**Purpose:** Summarize first-time lesson completion and route home or into the next lesson
 
 Layout:
-- Empty View (not yet implemented)
-
-## Adding New Screens
-
-1. Create `app/new-screen.tsx`
-2. Use AnimatedHeaderScrollView for scrollable content
-3. Handle loading, error, and empty states
-4. Add to navigation from relevant screen
-5. Update this file with screen specification
+- Completion title
+- Points earned
+- Total score and streak cards
+- Next lesson summary
+- Continue Next Lesson CTA
+- Exit to Home CTA

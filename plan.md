@@ -43,12 +43,12 @@ The lesson source is not fully normalized yet.
 
 This means the app should not directly trust `lessons/frontend.md` in its current form. The plan should include a normalization step so both courses can be loaded through one consistent model.
 
-## V1 Product Decisions
+## V0.0.1 Product Decisions
 
 These defaults remove ambiguity and keep the first implementation small:
 
 - Single local learner profile only. No auth and no sync.
-- Two courses in V1:
+- Two courses in V0.0.1:
   - Backend Engineering
   - Frontend Engineering
 - Lessons unlock strictly in order within each course.
@@ -59,7 +59,7 @@ These defaults remove ambiguity and keep the first implementation small:
   - first choice: resume the most recent in-progress lesson
   - second choice: open the next unlocked but incomplete lesson
   - third choice: open the first unlocked lesson in the selected course
-- Points in V1 should be simple and deterministic:
+- Points in V0.0.1 should be simple and deterministic:
   - `10` points per first-time lesson completion
 - A day counts toward the streak if at least one lesson is completed on that calendar day.
 - The home score is lifetime total points.
@@ -256,7 +256,7 @@ One row per lesson per local learner.
 | startedAt | integer | nullable |
 | completedAt | integer | nullable |
 | lastOpenedAt | integer | nullable |
-| pointsAwarded | integer | `0` or `10` in V1 |
+| pointsAwarded | integer | `0` or `10` in V0.0.1 |
 | createdAt | integer | timestamp_ms |
 | updatedAt | integer | timestamp_ms |
 
@@ -552,9 +552,9 @@ Optional cleanup if desired:
 - Do not lose reading position for in-progress lessons.
 - Do not skip loading, error, and empty states on screens with async DB reads.
 
-## Definition of Done for V1
+## Definition of Done for V0.0.1
 
-V1 is done when all of the following are true:
+V0.0.1 is done when all of the following are true:
 
 - the app shows both backend and frontend courses
 - lesson order comes from normalized repo content, not hardcoded arrays

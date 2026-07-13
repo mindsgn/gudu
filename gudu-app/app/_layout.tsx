@@ -6,14 +6,21 @@ import { Suspense } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migrations from "@/drizzle/migrations";
+import { colors } from "@/theme/colors";
 
 export default function RootLayout() {
   const { success: migrationsReady } = useMigrations(db, migrations);
 
   if (!migrationsReady) {
     return (
-      <View style={{ flex: 1 }}>
-        <ActivityIndicator />
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          backgroundColor: colors.background,
+        }}
+      >
+        <ActivityIndicator color={colors.accent} />
       </View>
     );
   }
@@ -21,8 +28,14 @@ export default function RootLayout() {
   return (
     <Suspense
       fallback={
-        <View style={{ flex: 1 }}>
-          <ActivityIndicator />
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            backgroundColor: colors.background,
+          }}
+        >
+          <ActivityIndicator color={colors.accent} />
         </View>
       }
     >
@@ -31,10 +44,11 @@ export default function RootLayout() {
         options={{ enableChangeListener: true }}
         useSuspense
       >
-        <GestureHandlerRootView>
+        <GestureHandlerRootView style={{ flex: 1 }}>
           <Stack>
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="home" options={{ headerShown: false }} />
+            <Stack.Screen name="course" options={{ headerShown: false }} />
             <Stack.Screen name="backend" options={{ headerShown: false }} />
             <Stack.Screen name="lesson" options={{ headerShown: false }} />
             <Stack.Screen name="complete" options={{ headerShown: false }} />

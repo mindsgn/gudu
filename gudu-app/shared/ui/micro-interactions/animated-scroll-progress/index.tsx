@@ -40,6 +40,7 @@ export const AnimatedScrollProgress: React.FC<IScrollProgress> &
     fabStyle,
     fabButtonStyle,
     onScrollProgressChange,
+    onScrollMetricsChange,
     onEndReached,
     onEndReset,
     ...props
@@ -85,6 +86,14 @@ export const AnimatedScrollProgress: React.FC<IScrollProgress> &
 
       if (onScrollProgressChange) {
         scheduleOnRN<[number], void>(onScrollProgressChange, clampedProgress);
+      }
+
+      if (onScrollMetricsChange) {
+        scheduleOnRN<[number, number], void>(
+          onScrollMetricsChange,
+          clampedProgress,
+          scrollY.value,
+        );
       }
 
       return clampedProgress;
