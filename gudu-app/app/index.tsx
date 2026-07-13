@@ -78,15 +78,6 @@ export default function Splash() {
         speed={1}
         width={72}
       />
-      {loading ? (
-        <View style={styles.loadingState}>
-          <StatePanel
-            message="Loading your local-first engineering journey."
-            progress
-            title="Preparing lessons"
-          />
-        </View>
-      ) : null}
     </View>
   );
 }
