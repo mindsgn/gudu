@@ -68,13 +68,13 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 8,
     borderRadius: 20,
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    alignItems: "flex-start",
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     alignSelf: "center",
   },
   buttonText: {
     ...typography.button,
     fontWeight: "700",
+    alignSelf: "center"
   },
 });
