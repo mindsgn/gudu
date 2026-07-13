@@ -33,11 +33,6 @@
 - Follow component structure in `CODING_STANDARDS.md`
 - Handle loading, error, and empty states
 
-### State
-- Use correct state tool per `STATE_MANAGEMENT.md`
-- Do not create Zustand stores for local UI state
-- Keep Firestore calls in `lib/` — not in components
-
 ### Styling
 - Use theme tokens from `theme/colors.ts` and `theme/typography.ts`
 - No hardcoded colors or font sizes

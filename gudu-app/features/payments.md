@@ -1,64 +1,35 @@
-# Payments Feature
+# Learning Feature
 
 ## Purpose
-Send tokens, swap tokens, and view transaction history.
+Browse courses, read lessons with scroll progress, and track completion.
 
 ## Screens
-- Send flow (multi-step, not yet implemented as separate screens)
-- Lesson (`/lesson`) — Uses transaction data for progress
+- Backend (`/backend`) — Course list of 11 backend topics
+- Lesson (`/lesson`) — Markdown lesson reader with scroll progress
+- Complete (`/complete`) — Lesson completion celebration
 
 ## Components
-- Button — Action buttons for send/swap
-- CircularProgressBar — Transaction progress indicator
-- AnimatedScrollProgress — Scroll-based progress
+- AnimatedHeaderScrollView — Large title scroll view with blur
+- FlashList — Course topic list
+- AnimatedScrollProgress — Scroll-based progress tracking with FAB
+- CircularProgress — Progress indicator on FAB
+- Button — Navigation buttons
 
-## Hooks
-- `use-Kernal.tsx` — Wallet client for signing
-- `use-wallet-balances.ts` — Balance checking
-
-## Lib Functions
-- `lib/amount.ts` — parseTokenAmount, formatTokenAmount, amountExceedsBalance
-- `lib/swap.ts` — getSwapQuote (0x.org)
-- `lib/transactions.ts` — createPendingTransaction, updateTransaction, finalizeTransaction
-- `lib/firebase.ts` — upsertWallet, getTransaction
-
-## Stores
-- `store/send.ts` — Send flow state machine (nextState/prevState)
-- `@/types/index.ts` — SendState, SendMethod types
-
-## API Endpoints
-- 0x.org: `GET /swap/permit2/quote` — Token swap quotes
-
-## State Flow (Send)
-1. Select method (token/nft/point) → "method"
-2. Enter amount → "amount"
-3. Enter recipient → "recipient"
-4. Review details → "review"
-5. Authenticate (biometric/PIN) → "auth"
-6. Processing → "sending"
-7. Complete → "sent"
-
-## State Flow (Swap)
-1. Select tokens
-2. Get quote from 0x.org
-3. Review swap details
-4. Confirm and execute
-5. Wait for confirmation
+## State Flow
+1. User selects course from home > navigates to `/backend`
+2. User selects topic > navigates to `/lesson`
+3. User scrolls through lesson > progress tracked
+4. Reaching end of lesson > haptic feedback > navigate to `/complete`
+5. Completion screen shown
 
 ## States
-- Loading: Spinner during transaction
-- Error: "Transaction failed" with retry/details
-- Empty: "No transactions yet"
-- Success: Transaction confirmed with hash
-
-## Transaction States
-- `pending` — Submitted, not confirmed
-- `confirmed` — Verified on chain
-- `failed` — Reverted or error
+- Loading: Splash animation
+- Error: "Failed to load lesson" with retry
+- Empty: "No content available"
+- Success: Lesson content with scroll progress
 
 ## Files
-- `store/send.ts` — Send state machine
-- `@/types/index.ts` — Send types
-- `lib/amount.ts` — Amount utilities
-- `lib/swap.ts` — Swap quotes
-- `lib/transactions.ts` — Transaction CRUD
+- `app/backend.tsx` — Course list
+- `app/lesson.tsx` — Lesson reader
+- `app/complete.tsx` — Completion screen
+- `constants/backend.ts` — Course content

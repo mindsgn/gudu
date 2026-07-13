@@ -1,42 +1,27 @@
 # Profile Feature
 
 ## Purpose
-Display user wallet information, balances, and settings.
+Display user progress and course completion status.
 
 ## Screens
-- Home (`/home`) — Main profile/balance view
+- Home (`/home`) — Main view with course list
 
 ## Components
 - AnimatedHeaderScrollView — Large title scroll view with blur
-- FlashList — Balance list
-- Balance — Balance text display
-- Card — Content container
-- SubButton — Action buttons
-
-## Hooks
-- `use-wallet-balances.ts` — Real-time Firestore balance listener
-
-## Lib Functions
-- `lib/wallet.ts` — getActiveWalletAddress, shortenAddress
-- `lib/firebase.ts` — getWallet, getWalletSettings
-
-## Stores
-- `store/wallet.ts` — Active wallet data
+- FlashList — Course list
+- Button — Navigation buttons
 
 ## State Flow
 1. Home screen mounts
-2. Hook subscribes to Firestore balance updates
-3. Balances update in real-time
-4. User can tap actions (send, swap, settings)
+2. Display available courses
+3. User taps course to navigate to course list
+4. Track lesson completion
 
 ## States
-- Loading: Skeleton/spinner in FlashList
-- Error: "Failed to load balances" with retry
-- Empty: "No wallets yet" with create option
-- Success: Balance list with amounts
+- Loading: Splash animation
+- Error: "Something went wrong" with retry
+- Empty: "No courses available"
+- Success: Course list with navigation
 
 ## Files
 - `app/home.tsx` — Home screen
-- `hooks/use-wallet-balances.ts` — Balance hook
-- `lib/wallet.ts` — Wallet utilities
-- `components/shared/balance.tsx` — Balance display

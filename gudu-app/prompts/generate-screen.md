@@ -12,7 +12,6 @@ Read these files before starting:
 - `TECH_STACK.md`
 - `FOLDER_STRUCTURE.md`
 - `NAVIGATION_SPEC.md`
-- `screens/screen-specifications.md`
 - `AI_RULES.md`
 
 Then create the following screen:
@@ -34,16 +33,13 @@ Then create the following screen:
 
 ## Follow These Rules
 1. Create `app/{route}.tsx`
-2. Use Screen container component
-3. Use AnimatedHeaderScrollView for scrollable content
-4. Handle all states: loading, error, empty, success
-5. Use FlashList for lists (not FlatList)
-6. Add navigation (push/replace/back)
-7. Pass route params if needed
-8. No Firestore calls in screen — use hooks
-9. Use theme tokens from `DESIGN_SYSTEM.md`
-10. Export default component
-11. Update `screens/screen-specifications.md`
+2. Use AnimatedHeaderScrollView for scrollable content
+3. Handle all states: loading, error, empty, success
+4. Use FlashList for lists (not FlatList)
+5. Add navigation (push/replace/back)
+6. Pass route params if needed
+7. Use theme tokens from `DESIGN_SYSTEM.md`
+8. Export default component
 
 ## Output
 - Screen file content

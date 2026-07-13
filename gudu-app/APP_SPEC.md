@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Gudu is a mobile crypto wallet and learning platform. Users manage digital assets on the Base chain, send/receive tokens, swap tokens, and take blockchain development courses.
+Gudu is a mobile learning platform for backend and frontend engineering. Users take structured courses broken into bite-sized lessons with progress tracking.
 
 ## Platforms
 
@@ -15,32 +15,27 @@ Expo SDK 56 + React Native 0.85.3
 
 ## Core Features
 
-1. **Wallet Management** — Create/import wallets, view balances, manage multiple wallets
-2. **Token Sending** — Multi-step send flow (method > amount > recipient > review > auth > sending > sent)
-3. **Token Swapping** — Swap tokens via 0x.org DEX aggregator on Base chain
-4. **Learning Platform** — Blockchain development courses with progress tracking
-5. **Push Notifications** — Transaction updates and learning reminders
+1. **Course Catalog** — Browse available courses (backend, frontend)
+2. **Lesson Reader** — Read markdown lessons with scroll progress tracking
+3. **Progress Tracking** — Complete lessons and track course progress
+4. **Completion Flow** — Celebrate lesson completion
 
 ## User Journeys
 
 ### First Launch
-Splash animation > Home screen > Create/import wallet
-
-### Send Tokens
-Home > Select token > Enter amount > Enter recipient > Review > Authenticate > Sending > Sent confirmation
+Splash animation > Home screen > Course list
 
 ### Learn
 Home > Course list > Lesson > Read with scroll progress > Completion
 
 ## Business Rules
 
-- All transactions are on Base chain (chain ID 8453)
-- Smart contract wallets via ZeroDev ERC-4337 (account abstraction)
-- User data stored locally (SQLite) and synced to Firestore
-- Currency preferences stored per wallet
+- All course content stored locally (SQLite)
+- Lessons are markdown-rendered with scroll progress
+- Completion triggers haptic feedback and navigation
 
 ## Target Users
 
-- Crypto-native users on Base chain
-- Blockchain developers learning through the app
-- Users who want a clean, minimal wallet experience
+- Backend developers learning through structured lessons
+- Frontend developers learning through structured lessons
+- Anyone who wants a clean, minimal learning experience

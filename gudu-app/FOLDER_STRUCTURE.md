@@ -12,23 +12,12 @@ gudu-app/
 │
 ├── components/
 │   └── shared/             # Simple shared UI primitives
-│       ├── balance.tsx
-│       ├── block.tsx
-│       ├── body.tsx
-│       ├── button.tsx
-│       ├── card.tsx
-│       ├── haptic-pressable.tsx
-│       ├── pressable-card.tsx
-│       ├── screen.tsx
-│       ├── sub-button.tsx
-│       ├── text.tsx
-│       └── title.tsx
+│       └── pressable-card.tsx
 │
 ├── shared/
 │   └── ui/                 # Complex reusable UI organisms
-│       ├── base/           # Base components (animated button)
-│       ├── micro-interactions/  # Scroll progress, etc.
-│       └── organisms/      # Skia blocks, rings, orbs, gradients
+│       ├── micro-interactions/  # Scroll progress
+│       └── organisms/      # Skia blocks, animated header, circular progress
 │
 ├── db/
 │   ├── schema.ts           # Drizzle table definitions
@@ -36,22 +25,8 @@ gudu-app/
 │
 ├── drizzle/                # Generated SQL migrations
 │
-├── hooks/                  # Custom React hooks
-│   ├── shorten-address.ts
-│   ├── use-Kernal.tsx
-│   └── use-wallet-balances.ts
-│
 ├── lib/                    # Pure business logic (no React)
-│   ├── amount.ts
-│   ├── firebase.ts
-│   ├── haptics.ts
-│   ├── swap.ts
-│   ├── transactions.ts
-│   └── wallet.ts
-│
-├── store/                  # Zustand stores
-│   ├── wallet.ts
-│   └── send.ts
+│   └── haptics.ts          # Haptic feedback utilities
 │
 ├── theme/                  # Design tokens
 │   ├── colors.ts
@@ -59,7 +34,7 @@ gudu-app/
 │
 ├── constants/              # Static data
 │   ├── index.ts
-│   └── backend.ts
+│   └── backend.ts          # Backend course content
 │
 ├── @types/                 # Shared TypeScript types
 │   └── index.ts
@@ -72,8 +47,6 @@ gudu-app/
 - New route → `app/new-route.tsx`
 - New shared primitive → `components/shared/new-component.tsx`
 - New complex UI → `shared/ui/organisms/new-component/` (index.tsx, types.ts, conf.ts)
-- New hook → `hooks/use-new-thing.ts`
 - New lib → `lib/new-thing.ts`
-- New store → `store/new-thing.ts`
 - New table → `db/schema.ts` (add to existing file)
 - New type → `@types/index.ts` or feature-specific types file

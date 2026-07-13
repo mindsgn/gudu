@@ -26,21 +26,9 @@ Do not introduce new libraries without explicit approval.
 - @expo/vector-icons (icons)
 - react-native-worklets (background scheduling)
 
-### State
-- Zustand (global client state)
-
 ### Database
 - expo-sqlite (local storage)
 - drizzle-orm (query builder + migrations)
-
-### Backend
-- Firebase/Firestore (remote sync, wallet data, transactions)
-
-### Blockchain
-- ethers (address utilities)
-- @zerodev/ecdsa-validator (ERC-4337 wallets)
-- viem (token amount parsing)
-- 0x.org API (token swaps)
 
 ### Forms & Validation
 - Not yet adopted. Do not add without approval.
