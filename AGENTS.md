@@ -3,9 +3,8 @@
 ## Repo Layout
 
 - `gudu-app/` — Expo (React Native) mobile app. The only runnable codebase.
-- `backend-engineering/` — Auto-generated backend curriculum (105 markdown chapters). **Do not edit by hand.**
-- `frontend-engineering/` — Auto-generated frontend curriculum (180 markdown chapters). **Do not edit by hand.**
-- `scripts/generate_backend_curriculum.py` / `scripts/generate_frontend_curriculum.py` — Python scripts that regenerate the curriculum. Run from repo root.
+- `backend-engineering/` / `frontend-engineering/` — Auto-generated curriculum markdown. **Do not edit by hand.**
+- `scripts/generate_backend_curriculum.py` / `scripts/generate_frontend_curriculum.py` — Regenerate the curriculum from repo root.
 - `lessons/` — Index files pointing into the generated curricula.
 
 ## gudu-app — Key Facts
@@ -42,7 +41,7 @@ python3 scripts/generate_backend_curriculum.py
 python3 scripts/generate_frontend_curriculum.py
 ```
 
-These overwrite `backend-engineering/*.md` and `frontend-engineering/*.md`. Never hand-edit generated files.
+These overwrite `backend-engineering/*.md` and `frontend-engineering/*.md`.
 
 ## Metro & Babel Quirks
 

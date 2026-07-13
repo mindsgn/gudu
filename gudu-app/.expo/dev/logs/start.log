@@ -54,3 +54,17 @@
 {"_e":"metro:bundling:done","_t":1783962979787,"id":"1","total":2332,"ms":4890.355958}
 {"_e":"metro:client_log","_t":1783962980175,"level":"log","data":["Shims Injected:"]}
 {"_e":"metro:client_log","_t":1783962980177,"level":"log","data":["  - nextTick"]}
+{"_e":"root:init","_t":1783964421091,"format":"v0-jsonl","version":"56.1.14"}
+{"_e":"devserver:start","_t":1783964421098,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../../../app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1783964421292,"serverRoot":"../../..","projectRoot":"../../..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"metro:instantiate","_t":1783964421594,"atlas":false,"workers":7,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1783964439567,"id":"1","platform":"ios","environment":null,"entry":"entrypoint.js"}
+{"_e":"metro:bundling:progress","_t":1783964439567,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1783964439571,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1783964439671,"id":"1","progress":0.3142203757138924,"total":289,"current":162}
+{"_e":"metro:bundling:progress","_t":1783964439771,"id":"1","progress":0.550737815518221,"total":888,"current":659}
+{"_e":"metro:bundling:progress","_t":1783964439871,"id":"1","progress":0.690553228478779,"total":1497,"current":1244}
+{"_e":"metro:bundling:progress","_t":1783964439971,"id":"1","progress":0.897552544722341,"total":2186,"current":2071}
+{"_e":"metro:bundling:done","_t":1783964440050,"id":"1","total":2186,"ms":483.366042}
+{"_e":"metro:client_log","_t":1783964440441,"level":"log","data":["Shims Injected:"]}
+{"_e":"metro:client_log","_t":1783964440442,"level":"log","data":["  - nextTick"]}
