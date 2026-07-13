@@ -416,6 +416,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: Colors.white,
     textAlign: "center",
+    fontWeight: "bold",
   },
   smallHeaderSubtitle: {
     fontSize: 12,
@@ -429,7 +430,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     marginBottom: spacing.md,
   },
-  largeTitleTextContainer: {},
+  largeTitleTextContainer: {
+    fontWeight: "bold",
+  },
   backgroundImageContainer: {
     marginHorizontal: -spacing.lg,
     marginBottom: spacing.md,

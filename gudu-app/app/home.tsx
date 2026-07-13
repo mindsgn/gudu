@@ -111,7 +111,7 @@ export default function Home() {
   return (
     <AnimatedHeaderScrollView
       largeTitle="GUDU"
-      subtitle="Local-first engineering practice"
+      subtitle="Learning Engineering from first principals"
     >
       <View style={styles.heroCard}>
         <Text style={styles.heroLabel}>Lifetime score</Text>
