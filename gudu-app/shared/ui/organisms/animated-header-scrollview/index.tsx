@@ -26,7 +26,7 @@ import { Colors, HEADER_HEIGHT, MAX_BLUR_INTENSITY, spacing } from "./conf";
 import type { AnimatedHeaderProps } from "./types";
 
 const AnimatedBlurView =
-  Animated.createAnimatedComponent<BlurViewProps>(BlurView);
+  Animated.createAnimatedComponent(BlurView);
 
 export const AnimatedHeaderScrollView: React.FC<AnimatedHeaderProps> &
   React.FunctionComponent<AnimatedHeaderProps> = memo<AnimatedHeaderProps>(
@@ -310,12 +310,14 @@ export const AnimatedHeaderScrollView: React.FC<AnimatedHeaderProps> &
                 animatedProps={smallTitleBlur}
                 intensity={smallTitleBlurIntensity}
                 tint={smallTitleBlurTint}
-                style={[
-                  styles.smallTitleBlurOverlay,
-                  {
-                    height: HEADER_HEIGHT + insets.top + 20,
-                  },
-                ]}
+                style={
+                  [
+                    styles.smallTitleBlurOverlay,
+                    {
+                      height: HEADER_HEIGHT + insets.top + 20,
+                    },
+                  ] as any
+                }
               />
             </MaskedView>
 
@@ -439,7 +441,7 @@ const styles = StyleSheet.create({
     height: 200,
   },
   backgroundOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "rgba(0, 0, 0, 0.52)",
   },
   largeTitleContent: {

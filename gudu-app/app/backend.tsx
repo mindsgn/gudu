@@ -1,13 +1,6 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  ActivityIndicator,
-  FlatListComponent,
-  Dimensions,
-} from "react-native";
+import { Dimensions } from "react-native";
 import { useRouter } from "expo-router";
-import { useCallback, useState, useEffect } from "react";
+import { useCallback } from "react";
 import { useFocusEffect } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { AnimatedHeaderScrollView } from "@/shared/ui/organisms/animated-header-scrollview";
@@ -30,7 +23,6 @@ const backendCourse = [
 
 export default function Backend() {
   const router = useRouter();
-  const [isReady, setReady] = useState<boolean>();
 
   useFocusEffect(
     useCallback(() => {
@@ -67,13 +59,3 @@ export default function Backend() {
     </AnimatedHeaderScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "black",
-  },
-});

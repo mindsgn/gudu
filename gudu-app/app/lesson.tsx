@@ -17,7 +17,7 @@ const STORY = {
   content: ``,
 };
 
-export default function Backend() {
+export default function Lesson() {
   const router = useRouter();
   const [isComplete, setComplete] = useState<boolean>();
 
@@ -197,15 +197,8 @@ export default function Backend() {
                 spoiler: {
                   color: "#FFF",
                 },
-                superscript: {
-                  color: "#FFF",
-                },
-                subscript: {
-                  color: "#FFF",
-                },
-                highlight: {
-                  color: "#FFF",
-                },
+                superscript: {},
+                subscript: {},
               }}
             />
           </View>
@@ -229,57 +222,16 @@ const styles = StyleSheet.create({
     paddingTop: 70,
     paddingBottom: 140,
   },
-  badge: {
-    alignSelf: "flex-start",
-    backgroundColor: "#1a1a1a",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  badgeText: {
-    fontSize: 12,
-    color: "#555",
-    fontWeight: "600",
-  },
   title: {
     fontSize: 36,
     fontWeight: "700",
     color: "#fff",
     marginBottom: 24,
   },
-  authorRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#1a1a1a",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  author: {
-    fontSize: 15,
-    color: "#fff",
-    fontWeight: "500",
-  },
-  date: {
-    fontSize: 13,
-    color: "#555",
-    marginTop: 2,
-  },
   divider: {
     height: 1,
     backgroundColor: "#1a1a1a",
     marginVertical: 28,
-  },
-  body: {
-    fontSize: 17,
-    color: "#000",
-    lineHeight: 28,
   },
   fabContent: {
     flex: 1,
