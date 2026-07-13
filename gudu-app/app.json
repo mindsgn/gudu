@@ -1,0 +1,56 @@
+{
+  "expo": {
+    "name": "GUDU",
+    "slug": "gudu",
+    "version": "0.0.0",
+    "scheme": "gudu",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "mindsgn.studio.backend",
+      "appleTeamId": "B3U8UM2966",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true,
+          "ITSAppUsesNonExemptEncryption": false
+        }
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "package": "mindsgn.studio.backend",
+      "predictiveBackGestureEnabled": false
+    },
+    "plugins": [
+      "expo-router",
+      "expo-web-browser",
+      "expo-localization",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static",
+            "forceStaticLinking": []
+          }
+        }
+      ],
+      "expo-sqlite",
+      "react-native-enriched-markdown"
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b07686e8-ea33-41af-817c-f359dc391985"
+      }
+    },
+    "owner": "mindsgn"
+  }
+}
