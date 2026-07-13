@@ -138,7 +138,7 @@ export default function Home() {
           accessibilityLabel="Continue learning"
           backgroundColor={colors.accent}
           color={colors.surface}
-          label={`Continue`
+          label={`CONTINUE`
           }
           onPress={() => {
             router.push({
