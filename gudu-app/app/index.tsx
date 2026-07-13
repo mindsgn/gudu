@@ -1,54 +1,106 @@
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { useCallback, useState, useEffect } from "react";
-import { useFocusEffect } from "expo-router";
-import * as Haptics from "expo-haptics";
+import { StatePanel } from "@/components/shared/state-panel";
+import { ensureCurriculumSeeded } from "@/db/learning";
 import { Block } from "@/shared/ui/organisms/block";
+import { colors } from "@/theme/colors";
+
+const wait = (duration: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, duration);
+  });
+};
 
 export default function Splash() {
   const router = useRouter();
-  const [isReady, setReady] = useState<boolean>(false);
-
-  useFocusEffect(
-    useCallback(() => {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-
-      return () => {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
-      };
-    }, []),
-  );
+  const [attempt, setAttempt] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    isReady ? router.replace("/home") : null;
+    let cancelled = false;
 
-    setTimeout(() => {
-      setReady(true);
-    }, 2000);
-  }, [isReady]);
+    const bootstrap = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        await Promise.all([ensureCurriculumSeeded(), wait(2000)]);
+        if (!cancelled) {
+          router.replace("/home");
+        }
+      } catch (bootstrapError) {
+        if (!cancelled) {
+          setError(
+            bootstrapError instanceof Error
+              ? bootstrapError.message
+              : "Failed to prepare the local curriculum.",
+          );
+          setLoading(false);
+        }
+      }
+    };
+
+    void bootstrap();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [attempt, router]);
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <StatePanel
+          actionLabel="Retry"
+          message={error}
+          onAction={() => {
+            setLoading(true);
+            setError(null);
+            setAttempt((value) => value + 1);
+          }}
+          title="GUDU couldn't start"
+        />
+      </View>
+    );
+  }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.centered}>
       <Block
-        width={50}
-        height={50}
-        borderRadius={0}
+        background={colors.surface}
+        base={colors.primaryMuted}
+        borderRadius={16}
         borderWidth={4}
+        glow={colors.accent}
+        height={72}
         speed={1}
-        base={"#333340"}
-        glow={"#c0c8e0"}
-        background={"#000"}
+        width={72}
       />
+      {loading ? (
+        <View style={styles.loadingState}>
+          <StatePanel
+            message="Loading your local-first engineering journey."
+            progress
+            title="Preparing lessons"
+          />
+        </View>
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  centered: {
     flex: 1,
-    display: "flex",
+    backgroundColor: colors.background,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "black",
+    paddingHorizontal: 16,
+    gap: 24,
+  },
+  loadingState: {
+    width: "100%",
   },
 });

@@ -1,0 +1,7 @@
+appId: mindsgn.studio.backend
+---
+- launchApp
+- assertVisible:
+    id: "home-continue-button"
+- tapOn:
+    id: "home-continue-button"

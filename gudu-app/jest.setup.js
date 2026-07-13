@@ -64,17 +64,25 @@ jest.mock("react-native-gesture-handler", () => ({
 }));
 
 // Mock expo-router
-jest.mock("expo-router", () => ({
-  useRouter: () => ({
+jest.mock("expo-router", () => {
+  const React = require("react");
+  const router = {
     replace: jest.fn(),
     push: jest.fn(),
     back: jest.fn(),
-  }),
-  useFocusEffect: (cb) => cb(),
-  Stack: {
-    Screen: "StackScreen",
-  },
-}));
+  };
+
+  return {
+    useRouter: () => router,
+    useFocusEffect: (cb) => {
+      React.useEffect(() => cb(), [cb]);
+    },
+    useLocalSearchParams: jest.fn(() => ({})),
+    Stack: {
+      Screen: "StackScreen",
+    },
+  };
+});
 
 // Mock expo-blur
 jest.mock("expo-blur", () => ({
@@ -118,7 +126,27 @@ jest.mock("react-native-enriched-markdown", () => ({
 
 // Mock @shopify/flash-list
 jest.mock("@shopify/flash-list", () => ({
-  FlashList: "FlashList",
+  FlashList: ({ data = [], renderItem, ListHeaderComponent, testID }) => {
+    const React = require("react");
+    const { View } = require("react-native");
+    const header =
+      typeof ListHeaderComponent === "function"
+        ? React.createElement(ListHeaderComponent)
+        : ListHeaderComponent;
+
+    return React.createElement(
+      View,
+      { testID },
+      header,
+      data.map((item, index) =>
+        React.createElement(
+          View,
+          { key: item?.id ?? `${index}` },
+          renderItem({ item, index }),
+        ),
+      ),
+    );
+  },
 }));
 
 // Mock expo-sqlite

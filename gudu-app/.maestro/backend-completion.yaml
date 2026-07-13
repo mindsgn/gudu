@@ -1,0 +1,13 @@
+appId: mindsgn.studio.backend
+---
+- launchApp
+- tapOn:
+    id: "course-card-backend"
+- tapOn:
+    id: "lesson-row-backend:1-how-computers-represent-information"
+- scrollUntilVisible:
+    element:
+      id: "complete-next-button"
+    direction: DOWN
+- assertVisible:
+    id: "complete-home-button"

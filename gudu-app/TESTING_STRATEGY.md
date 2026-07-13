@@ -2,37 +2,52 @@
 
 ## Current State
 
-Tests use Jest (comes with Expo). Run with `npm test` from `gudu-app/`.
+Tests run with Jest from `gudu-app/`.
 
-## Coverage Targets
+Commands:
+
+```bash
+npx tsc --noEmit
+npx jest --runInBand
+```
+
+## Coverage Focus
 
 ### Unit Tests
-- Pure functions in `lib/` — test inputs/outputs
-- Helper functions — test edge cases
-- Theme tokens — verify shape and values
-- Constants — verify structure
+
+- `lib/points.ts`
+- `lib/streaks.ts`
+- `lib/lesson-progress.ts`
+- `lib/continue-target.ts`
+- `lib/activity-heatmap.ts`
 
 ### Component Tests
-- Shared components — test rendering with different props
-- UI organisms — test interaction callbacks
-- Error/loading/empty states — test all branches
 
-### Integration Tests
-- Screen flows — test navigation and data flow
+- `shared/ui/organisms/activity-heatmap`
+- shared constants/theme regressions
 
-### E2E Tests (Future)
-- Critical user journeys
-- Course completion flow
+### Screen/Integration Tests
+
+- `app/home.tsx` dashboard rendering with mocked local data
+
+### E2E Flows
+
+Maestro flows live in `gudu-app/.maestro/` for:
+
+- first launch and seeded home
+- backend lesson completion
+- continue learning
+- locked lesson visibility
 
 ## Rules
 
-- Test behavior, not implementation
-- Use descriptive test names
-- One assertion per test when possible
-- Test error states and edge cases
+- Test local-first learning behavior, not implementation details
+- Cover idempotent completion rules and continue-target logic
+- Keep tests deterministic by mocking device-only dependencies
+- Use stable `testID`s for Maestro-critical elements
 
 ## Tooling
 
-- Test runner: Jest (comes with Expo)
-- Config: `jest.config.js`
-- Setup: `jest.setup.js` (mocks for React Native modules)
+- Test runner: Jest
+- Type check: `npx tsc --noEmit`
+- E2E authoring: Maestro YAML flows

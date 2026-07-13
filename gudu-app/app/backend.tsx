@@ -1,61 +1,16 @@
-import { Dimensions } from "react-native";
+import { useEffect } from "react";
 import { useRouter } from "expo-router";
-import { useCallback } from "react";
-import { useFocusEffect } from "expo-router";
-import * as Haptics from "expo-haptics";
-import { AnimatedHeaderScrollView } from "@/shared/ui/organisms/animated-header-scrollview";
-import { FlashList } from "@shopify/flash-list";
-import { Button } from "@/components/shared/pressable-card";
+import { View } from "react-native";
 
-const backendCourse = [
-  { title: "HTTP" },
-  { title: "API" },
-  { title: "Authentication" },
-  { title: "Database" },
-  { title: "Caching" },
-  { title: "Queues & Background" },
-  { title: "Event Driven" },
-  { title: "Distrubitated" },
-  { title: "Monitoring & Observalibilty" },
-  { title: "Security" },
-  { title: "Deployment & Infrustracture" },
-];
-
-export default function Backend() {
+export default function BackendRedirect() {
   const router = useRouter();
 
-  useFocusEffect(
-    useCallback(() => {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+  useEffect(() => {
+    router.replace({
+      pathname: "/course",
+      params: { courseSlug: "backend" },
+    });
+  }, [router]);
 
-      return () => {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
-      };
-    }, []),
-  );
-
-  return (
-    <AnimatedHeaderScrollView
-      largeTitle={"Backend"}
-      subtitle="Backend First Principals"
-    >
-      <FlashList
-        data={backendCourse}
-        renderItem={(data) => {
-          const { item } = data;
-          return (
-            <Button
-              width={Dimensions.get("screen").width - 30}
-              label={`${item.title}`}
-              backgroundColor="black"
-              color="white"
-              onPress={() => {
-                router.replace({ pathname: `/lesson` });
-              }}
-            />
-          );
-        }}
-      />
-    </AnimatedHeaderScrollView>
-  );
+  return <View />;
 }

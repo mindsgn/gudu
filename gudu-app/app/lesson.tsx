@@ -1,255 +1,396 @@
-import { StyleSheet, View, Text } from "react-native";
-import { useRouter } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
-import { useFocusEffect } from "expo-router";
-import * as Haptics from "expo-haptics";
-import { AnimatedScrollProgress } from "@/shared/ui/micro-interactions/animated-scroll-progress";
-import { useSharedValue } from "react-native-reanimated";
-import { CircularProgress } from "@/shared/ui/organisms/circular-progress";
+import { useEffect, useRef, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { EnrichedMarkdownText } from "react-native-enriched-markdown";
-import { content } from "@/constants/backend";
+import { useSharedValue } from "react-native-reanimated";
+import { CircularProgress } from "@/shared/ui/organisms/circular-progress";
+import { AnimatedScrollProgress } from "@/shared/ui/micro-interactions/animated-scroll-progress";
+import { StatePanel } from "@/components/shared/state-panel";
+import {
+  completeLesson,
+  getLessonScreenData,
+  markLessonOpened,
+  saveLessonProgress,
+  type CompletionResult,
+  type LessonScreenData,
+} from "@/db/learning";
+import { colors } from "@/theme/colors";
+import { typography } from "@/theme/typography";
 
-const STORY = {
-  title: "HTTP Protocol",
-  author: "James Scott",
-  date: "August 03, 2023",
-  content: ``,
-};
+type ScreenState =
+  | { status: "loading" }
+  | { status: "error"; message: string }
+  | { status: "ready"; data: LessonScreenData };
 
-export default function Lesson() {
+export default function LessonScreen() {
   const router = useRouter();
-  const [isComplete, setComplete] = useState<boolean>();
-
-  const progress = useSharedValue<number>(0);
-
-  useFocusEffect(
-    useCallback(() => {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-
-      return () => {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
-      };
-    }, []),
-  );
+  const params = useLocalSearchParams<{ lessonId?: string | string[] }>();
+  const lessonId = typeof params.lessonId === "string" ? params.lessonId : undefined;
+  const [state, setState] = useState<ScreenState>({ status: "loading" });
+  const [completing, setCompleting] = useState(false);
+  const progress = useSharedValue(0);
+  const latestMetricsRef = useRef({ progress: 0, offset: 0 });
+  const completionTriggeredRef = useRef(false);
+  const progressTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (isComplete) {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      setTimeout(() => {
-        router.replace("/complete");
-      }, 500);
+    return () => {
+      if (progressTimeoutRef.current) {
+        clearTimeout(progressTimeoutRef.current);
+      }
+
+      if (lessonId && !completionTriggeredRef.current) {
+        void saveLessonProgress(
+          lessonId,
+          latestMetricsRef.current.progress,
+          latestMetricsRef.current.offset,
+        );
+      }
+    };
+  }, [lessonId]);
+
+  useEffect(() => {
+    if (!lessonId) {
+      setState({
+        status: "error",
+        message: "No lesson was selected.",
+      });
+      return;
     }
-  }, [isComplete]);
+
+    let cancelled = false;
+
+    const loadLesson = async () => {
+      setState({ status: "loading" });
+      completionTriggeredRef.current = false;
+
+      try {
+        const data = await getLessonScreenData(lessonId);
+        progress.value = data.scrollPercent;
+        latestMetricsRef.current = {
+          progress: data.scrollPercent,
+          offset: data.lastScrollOffset,
+        };
+        await markLessonOpened(lessonId);
+
+        if (!cancelled) {
+          setState({ status: "ready", data });
+        }
+      } catch (lessonError) {
+        if (!cancelled) {
+          setState({
+            status: "error",
+            message:
+              lessonError instanceof Error
+                ? lessonError.message
+                : "Failed to load the lesson.",
+          });
+        }
+      }
+    };
+
+    void loadLesson();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [lessonId, progress]);
+
+  const handleCompletion = async () => {
+    if (!lessonId || completing) {
+      return;
+    }
+
+    setCompleting(true);
+
+    try {
+      const result = await completeLesson(lessonId);
+      routeToCompletion(router, result);
+    } catch (completionError) {
+      completionTriggeredRef.current = false;
+      setState({
+        status: "error",
+        message:
+          completionError instanceof Error
+            ? completionError.message
+            : "Failed to finish the lesson.",
+      });
+    } finally {
+      setCompleting(false);
+    }
+  };
+
+  const scheduleProgressSave = (nextProgress: number, nextOffset: number) => {
+    if (!lessonId) {
+      return;
+    }
+
+    latestMetricsRef.current = {
+      progress: nextProgress,
+      offset: nextOffset,
+    };
+
+    if (progressTimeoutRef.current) {
+      clearTimeout(progressTimeoutRef.current);
+    }
+
+    progressTimeoutRef.current = setTimeout(() => {
+      void saveLessonProgress(lessonId, nextProgress, nextOffset);
+    }, 350);
+  };
+
+  if (state.status === "loading") {
+    return (
+      <View style={styles.centered}>
+        <StatePanel
+          message="Loading markdown and restoring your reading position."
+          progress
+          title="Preparing lesson"
+        />
+      </View>
+    );
+  }
+
+  if (state.status === "error") {
+    return (
+      <View style={styles.centered}>
+        <StatePanel
+          actionLabel="Back Home"
+          message={state.message}
+          onAction={() => {
+            router.replace("/home");
+          }}
+          title="Lesson unavailable"
+        />
+      </View>
+    );
+  }
+
+  const { data } = state;
 
   return (
     <View style={styles.container}>
       <AnimatedScrollProgress
-        fabWidth={280}
-        fabHeight={56}
-        fabBottomOffset={50}
-        fabBackgroundColor="#151515"
-        fabEndBackgroundColor="#fff"
+        contentOffset={{ x: 0, y: data.lastScrollOffset }}
+        endReachedThreshold={100}
+        fabBackgroundColor={colors.surface}
         fabBorderRadius={28}
-        showFabOnScroll
-        fabAppearScrollOffset={50}
-        onScrollProgressChange={(_value) => {
-          progress.value = _value;
-          if (_value == 100 && !isComplete) {
-            setComplete(true);
+        fabBottomOffset={42}
+        fabEndBackgroundColor={colors.buttonTextBackground}
+        fabHeight={60}
+        fabWidth={280}
+        onScrollMetricsChange={(nextProgress, nextOffset) => {
+          progress.value = nextProgress;
+          scheduleProgressSave(nextProgress, nextOffset);
+
+          if (nextProgress >= 100 && !completionTriggeredRef.current) {
+            completionTriggeredRef.current = true;
+            void handleCompletion();
           }
         }}
+        renderEndContent={() => (
+          <View style={styles.fabCompleteContent}>
+            <View>
+              <Text style={styles.fabCompleteTitle}>Lesson complete</Text>
+              <Text style={styles.fabCompleteSubtitle}>Unlocking what is next</Text>
+            </View>
+            <SymbolView
+              name="checkmark.circle.fill"
+              resizeMode="scaleAspectFit"
+              size={30}
+              tintColor={colors.surface}
+            />
+          </View>
+        )}
         renderInitialContent={() => (
           <View style={styles.fabContent}>
             <View style={styles.fabTextContent}>
-              <Text style={[styles.fabTitle]}>{STORY.title}</Text>
-              <Text style={[styles.fabSubtitle]}>Chapter 1</Text>
+              <Text style={styles.fabTitle}>{data.title}</Text>
+              <Text style={styles.fabSubtitle}>{data.moduleTitle}</Text>
             </View>
-            <View
-              style={{
-                position: "absolute",
-                left: 200,
-              }}
-            >
-              <CircularProgress
-                progress={progress}
-                size={36}
-                renderIcon={() => (
-                  <SymbolView
-                    name="arrow.forward.circle.fill"
-                    tintColor={"#fff"}
-                    size={30}
-                    resizeMode="scaleAspectFit"
-                  />
-                )}
-                strokeWidth={3}
-                backgroundColor="#333"
-              />
-            </View>
-          </View>
-        )}
-        renderEndContent={() => (
-          <>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                flex: 1,
-              }}
-            >
-              <View>
-                <Text style={[{ color: "#000", fontSize: 18 }]}>
-                  Well done!
-                </Text>
-                <Text style={[{ color: "#3d3d3d", fontSize: 12 }]}>
-                  Let's move on.
-                </Text>
-              </View>
-              <View
-                style={{
-                  position: "absolute",
-                  left: 200,
-                }}
-              >
+            <CircularProgress
+              backgroundColor={colors.surface}
+              progress={progress}
+              progressCircleColor={colors.accent}
+              renderIcon={() => (
                 <SymbolView
                   name="book.fill"
-                  size={36}
-                  style={{
-                    marginRight: 10,
-                  }}
                   resizeMode="scaleAspectFit"
-                  tintColor="#000"
+                  size={18}
+                  tintColor={colors.buttonTextBackground}
                 />
-              </View>
-            </View>
-          </>
+              )}
+              size={38}
+              strokeWidth={3}
+            />
+          </View>
         )}
       >
         <View style={styles.content}>
-          <Text style={[styles.title]}>{STORY.title}</Text>
-
-          <View style={styles.divider} />
-          <View
-            style={{
-              flex: 1,
-              paddingBottom: 200,
-            }}
-          >
-            <EnrichedMarkdownText
-              markdown={content}
-              markdownStyle={{
-                paragraph: {
-                  color: "#FFF",
-                },
-                h1: {
-                  color: "#FFF",
-                },
-                h2: {
-                  color: "#FFF",
-                },
-                h3: {
-                  color: "#FFF",
-                },
-                h4: {
-                  color: "#FFF",
-                },
-                h5: {
-                  color: "#FFF",
-                },
-                h6: {
-                  color: "#FFF",
-                },
-                strong: {
-                  color: "#FFF",
-                },
-                em: {
-                  color: "#FFF",
-                },
-                strikethrough: {
-                  color: "#FFF",
-                },
-                underline: {
-                  color: "#FFF",
-                },
-                link: {
-                  color: "#FFF",
-                },
-                code: {
-                  color: "#000",
-                },
-                codeBlock: {},
-                blockquote: {
-                  backgroundColor: "#1D2430",
-                  color: "#fff",
-                },
-                list: {
-                  color: "#FFF",
-                },
-                image: {},
-                inlineImage: {},
-                taskList: {},
-                math: {
-                  color: "#FFF",
-                },
-                inlineMath: {
-                  color: "#FFF",
-                },
-                spoiler: {
-                  color: "#FFF",
-                },
-                superscript: {},
-                subscript: {},
-              }}
-            />
+          <Text style={styles.courseLabel}>{data.courseTitle}</Text>
+          <Text style={styles.moduleLabel}>{data.moduleTitle}</Text>
+          <Text style={styles.title}>{data.title}</Text>
+          <View style={styles.metaRow}>
+            {data.estimatedStudyMinutes ? (
+              <Text style={styles.metaText}>{data.estimatedStudyMinutes} min study</Text>
+            ) : null}
+            {data.estimatedPracticeMinutes ? (
+              <Text style={styles.metaText}>
+                {data.estimatedPracticeMinutes} min practice
+              </Text>
+            ) : null}
+            {data.difficultyLabel ? (
+              <Text style={styles.metaText}>{data.difficultyLabel}</Text>
+            ) : null}
           </View>
+          <EnrichedMarkdownText
+            markdown={data.markdown}
+            markdownStyle={markdownStyles}
+          />
         </View>
       </AnimatedScrollProgress>
     </View>
   );
 }
 
+const routeToCompletion = (
+  router: ReturnType<typeof useRouter>,
+  result: CompletionResult,
+) => {
+  router.replace({
+    pathname: "/complete",
+    params: {
+      courseSlug: result.courseSlug,
+      currentStreak: `${result.currentStreak}`,
+      lessonId: result.lessonId,
+      lessonTitle: result.lessonTitle,
+      nextLessonId: result.nextLessonId ?? "",
+      nextLessonTitle: result.nextLessonTitle ?? "",
+      pointsEarned: `${result.pointsEarned}`,
+      totalPoints: `${result.totalPoints}`,
+    },
+  });
+};
+
+const markdownStyles = {
+  paragraph: {
+    color: colors.buttonTextBackground,
+  },
+  h1: {
+    color: colors.buttonTextBackground,
+  },
+  h2: {
+    color: colors.buttonTextBackground,
+  },
+  h3: {
+    color: colors.buttonTextBackground,
+  },
+  h4: {
+    color: colors.buttonTextBackground,
+  },
+  h5: {
+    color: colors.buttonTextBackground,
+  },
+  h6: {
+    color: colors.buttonTextBackground,
+  },
+  strong: {
+    color: colors.buttonTextBackground,
+  },
+  em: {
+    color: colors.buttonTextBackground,
+  },
+  list: {
+    color: colors.buttonTextBackground,
+  },
+  link: {
+    color: colors.accent,
+  },
+  blockquote: {
+    backgroundColor: colors.surface,
+    color: colors.buttonTextBackground,
+  },
+  code: {
+    color: colors.surface,
+  },
+  math: {
+    color: colors.buttonTextBackground,
+  },
+};
+
 const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    backgroundColor: colors.background,
+    justifyContent: "center",
+    paddingHorizontal: 16,
+  },
   container: {
     flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "black",
-    color: "white",
+    backgroundColor: colors.background,
   },
   content: {
-    paddingHorizontal: 24,
-    paddingTop: 70,
-    paddingBottom: 140,
+    paddingHorizontal: 20,
+    paddingTop: 80,
+    paddingBottom: 180,
+    gap: 12,
+  },
+  courseLabel: {
+    ...typography.caption,
+    color: colors.accent,
+    textTransform: "uppercase",
+  },
+  moduleLabel: {
+    ...typography.caption,
+    color: colors.textSecondary,
   },
   title: {
-    fontSize: 36,
-    fontWeight: "700",
-    color: "#fff",
-    marginBottom: 24,
+    ...typography.title,
+    color: colors.buttonTextBackground,
   },
-  divider: {
-    height: 1,
-    backgroundColor: "#1a1a1a",
-    marginVertical: 28,
+  metaRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginBottom: 12,
+  },
+  metaText: {
+    ...typography.caption,
+    color: colors.textSecondary,
   },
   fabContent: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 0,
   },
   fabTextContent: {
-    gap: 2,
+    flex: 1,
+    gap: 4,
   },
   fabTitle: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#fff",
+    ...typography.body,
+    color: colors.buttonTextBackground,
+    fontWeight: "700",
   },
   fabSubtitle: {
-    fontSize: 12,
-    color: "#555",
+    ...typography.caption,
+    color: colors.textSecondary,
+  },
+  fabCompleteContent: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  fabCompleteTitle: {
+    ...typography.body,
+    color: colors.surface,
+    fontWeight: "700",
+  },
+  fabCompleteSubtitle: {
+    ...typography.caption,
+    color: colors.surface,
   },
 });

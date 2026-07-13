@@ -9,7 +9,9 @@ export const Button: React.FC<{
   onPress: () => void;
   width?: number;
   testID?: string;
+  accessibilityLabel?: string;
   progress?: boolean;
+  disabled?: boolean;
   backgroundColor?: string;
   color?: string;
 }> = ({
@@ -17,17 +19,24 @@ export const Button: React.FC<{
   onPress,
   width = 150,
   testID,
+  accessibilityLabel,
   progress = false,
+  disabled = false,
   backgroundColor = colors.buttonBackground,
   color = colors.buttonTextBackground,
 }) => (
   <Pressable
     testID={testID}
+    accessibilityLabel={accessibilityLabel ?? label}
+    accessibilityRole="button"
+    accessibilityState={{ disabled }}
+    disabled={disabled || progress}
     style={[
       styles.button,
       {
         width,
         backgroundColor,
+        opacity: disabled ? 0.55 : 1,
       },
     ]}
     onPress={onPress}
@@ -60,6 +69,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     borderRadius: 20,
     paddingVertical: 20,
+    paddingHorizontal: 20,
     alignItems: "flex-start",
     alignSelf: "center",
   },

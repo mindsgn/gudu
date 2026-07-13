@@ -1,0 +1,8 @@
+appId: mindsgn.studio.backend
+---
+- launchApp
+- tapOn:
+    id: "course-card-backend"
+- assertVisible:
+    id: "lesson-row-backend:2-computer-architecture-for-backend-engineers"
+- assertVisible: "Backend Engineering"
