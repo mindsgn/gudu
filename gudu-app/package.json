@@ -57,6 +57,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest",
+    "test-app": "npx tsc --noEmit && npx jest --runInBand",
     "typecheck": "tsc --noEmit"
   },
   "private": true

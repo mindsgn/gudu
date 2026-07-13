@@ -125,36 +125,16 @@ export default function CourseScreen() {
   const { course, completedLessons, continueTarget } = state.data;
 
   return (
+    <>
     <AnimatedHeaderScrollView
       largeTitle={course.title}
       subtitle={`${course.totalLessons} lessons across ${course.totalModules} modules`}
     >
-      <View style={styles.summaryCard}>
-        <Text style={styles.summaryTitle}>{course.description}</Text>
-        <Text style={styles.summaryValue}>
-          {completedLessons} of {course.totalLessons} lessons complete
-        </Text>
-        {continueTarget ? (
-          <Button
-            accessibilityLabel="Continue this course"
-            backgroundColor={colors.accent}
-            color={colors.surface}
-            label={`Continue ${continueTarget.lessonTitle}`}
-            onPress={() => {
-              router.push({
-                pathname: "/lesson",
-                params: { lessonId: continueTarget.lessonId },
-              });
-            }}
-            width={Dimensions.get("window").width - 56}
-          />
-        ) : null}
-      </View>
-
       <FlashList
         data={items}
         getItemType={(item) => item.type}
-        keyExtractor={(item) => `${item.type}-${item.id}`}
+          keyExtractor={(item) => `${item.type}-${item.id}`}
+          ListFooterComponent={<View style={ {paddingBottom: 200,}}></View>}
         renderItem={({ item }) => {
           if (item.type === "module") {
             return (
@@ -188,7 +168,30 @@ export default function CourseScreen() {
         }}
         scrollEnabled={false}
       />
-    </AnimatedHeaderScrollView>
+      </AnimatedHeaderScrollView>
+
+      {
+        continueTarget ?
+        <View style={styles.summaryCard}>
+          {continueTarget ? (
+            <Button
+              accessibilityLabel="Continue this course"
+              backgroundColor={colors.accent}
+              color={colors.surface}
+              label={`CONTINUE`}
+              onPress={() => {
+                router.push({
+                  pathname: "/lesson",
+                  params: { lessonId: continueTarget.lessonId },
+                });
+              }}
+              width={Dimensions.get("window").width - 56}
+            />
+          ) : null}
+          </View>
+          : null
+      }
+    </>
   );
 }
 
@@ -200,11 +203,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   summaryCard: {
+    position: "absolute",
+    bottom: 0,
     backgroundColor: colors.surface,
     borderRadius: 24,
     padding: 20,
     gap: 12,
-    marginBottom: 24,
   },
   summaryTitle: {
     ...typography.body,

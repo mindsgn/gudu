@@ -426,9 +426,6 @@ const styles = StyleSheet.create({
   rightComponentContainer: {
     marginLeft: spacing.md,
   },
-  largeTitle: {
-    fontWeight: "bold",
-  },
   largeTitleContainer: {
     paddingHorizontal: spacing.md,
     marginBottom: spacing.md,
