@@ -114,29 +114,31 @@ export default function Home() {
       subtitle="Learning Engineering from first principals"
     >
       <View style={styles.heroCard}>
-        <Text style={styles.heroLabel}>Lifetime score</Text>
         <Text style={styles.heroValue}>{data.profile.totalPoints}</Text>
-        <View style={styles.streakRow}>
-          <View style={styles.streakCard}>
-            <Text style={styles.streakLabel}>Current streak</Text>
-            <Text style={styles.streakValue}>{data.profile.currentStreak} days</Text>
+        <Text style={styles.heroLabel}>POINTS</Text>
+        {
+          /*
+          <View style={styles.streakRow}>
+            <View style={styles.streakCard}>
+              <Text style={styles.streakLabel}>Current streak</Text>
+              <Text style={styles.streakValue}>{data.profile.currentStreak} days</Text>
+            </View>
+            <View style={styles.streakCard}>
+              <Text style={styles.streakLabel}>Best streak</Text>
+              <Text style={styles.streakValue}>{data.profile.longestStreak} days</Text>
+            </View>
           </View>
-          <View style={styles.streakCard}>
-            <Text style={styles.streakLabel}>Best streak</Text>
-            <Text style={styles.streakValue}>{data.profile.longestStreak} days</Text>
-          </View>
-        </View>
+          */
+        }
+
       </View>
 
-      {data.continueTarget ? (
+      {data.continueTarget.reason === "resume" ? (
         <Button
           accessibilityLabel="Continue learning"
           backgroundColor={colors.accent}
           color={colors.surface}
-          label={
-            data.continueTarget.reason === "resume"
-              ? `Continue ${data.continueTarget.lessonTitle}`
-              : `Start ${data.continueTarget.lessonTitle}`
+          label={`Continue`
           }
           onPress={() => {
             router.push({
@@ -192,7 +194,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   heroCard: {
-    backgroundColor: colors.surface,
     borderRadius: 24,
     padding: 24,
     gap: 16,
@@ -201,10 +202,13 @@ const styles = StyleSheet.create({
     ...typography.caption,
     color: colors.textSecondary,
     textTransform: "uppercase",
+    alignSelf: "center",
   },
   heroValue: {
     ...typography.balance,
     color: colors.buttonTextBackground,
+    fontSize: 100,
+    alignSelf: "center",
   },
   streakRow: {
     flexDirection: "row",

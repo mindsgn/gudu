@@ -47,7 +47,6 @@ export const ActivityHeatmap = ({
           ))}
         </View>
       </ScrollView>
-      <Text style={styles.caption}>Recent activity</Text>
     </View>
   );
 };

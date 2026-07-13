@@ -31,19 +31,10 @@ export const CourseCard = ({
       testID={testID}
     >
       <View style={styles.badgeRow}>
-        <View style={styles.progressPill}>
-          <Text style={styles.progressPillText}>{progressLabel}</Text>
-        </View>
         <Text style={styles.detailLabel}>{detailLabel}</Text>
       </View>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
-      <View style={styles.footer}>
-        <Text style={styles.footerLabel}>Next up</Text>
-        <Text style={styles.footerValue}>
-          {nextLessonTitle ?? "Start from lesson one"}
-        </Text>
-      </View>
     </Pressable>
   );
 };

@@ -54,7 +54,7 @@ export const AnimatedHeaderScrollView: React.FC<AnimatedHeaderProps> &
       end: "black",
     },
     largeTitleBlurIntensity = 20,
-    largeHeaderTitleStyle: _largeTitleStyle = { fontSize: 40 },
+    largeHeaderTitleStyle: _largeTitleStyle = { fontSize: 40, fontWeight: "bold" },
     largeHeaderSubtitleStyle,
     smallHeaderSubtitleStyle: _smallHeaderSubtitleStylez,
     smallHeaderTitleStyle,
@@ -426,12 +426,15 @@ const styles = StyleSheet.create({
   rightComponentContainer: {
     marginLeft: spacing.md,
   },
+  largeTitle: {
+    fontWeight: "bold",
+  },
   largeTitleContainer: {
     paddingHorizontal: spacing.md,
     marginBottom: spacing.md,
   },
   largeTitleTextContainer: {
-    fontWeight: "bold",
+
   },
   backgroundImageContainer: {
     marginHorizontal: -spacing.lg,
