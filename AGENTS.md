@@ -60,3 +60,62 @@ These overwrite `backend-engineering/*.md` and `frontend-engineering/*.md`.
 
 - `smartAdress` (no 'r') is used consistently across the codebase — it's an established field name, not a typo to fix.
 - `app.json` says `"name": "BACKEND"` and `"slug": "backend"` but the package.json name is `"afika"`. Both are correct.
+
+## Specification System
+
+All specs live in `gudu-app/`. Read these before generating any code.
+
+### Core Specs
+- `APP_SPEC.md` — App purpose, features, user journeys
+- `ARCHITECTURE.md` — Code organization, separation of concerns
+- `CODING_STANDARDS.md` — TypeScript, naming, component structure
+- `TECH_STACK.md` — Locked technology choices (do not add new libs)
+- `FOLDER_STRUCTURE.md` — Exact file locations
+- `AI_RULES.md` — Rules AI must follow when generating code
+
+### UI Specs
+- `DESIGN_SYSTEM.md` — Colors, typography, spacing, component tokens
+- `UI_GUIDELINES.md` — Layout rules, accessibility, animations
+- `NAVIGATION_SPEC.md` — Route structure, screen options
+
+### Data Specs
+- `STATE_MANAGEMENT.md` — What state goes where
+- `API_SPEC.md` — Firestore collections, external APIs
+- `DATA_MODELS.md` — SQLite schema, Firestore documents, app types
+
+### Quality Specs
+- `SECURITY_RULES.md` — Token storage, secrets, permissions
+- `ERROR_HANDLING.md` — Error categories, component patterns
+- `PERFORMANCE_RULES.md` — Lists, animations, memory
+- `TESTING_STRATEGY.md` — Test coverage targets
+
+### Operations
+- `DEPLOYMENT.md` — EAS Build, versioning, release
+- `ENVIRONMENT_CONFIG.md` — Env vars, config files
+
+### Feature Specs
+- `features/feature-template.md` — Template for new features
+- `features/authentication.md` — Wallet creation, auth
+- `features/profile.md` — Balances, wallet info
+- `features/payments.md` — Send, swap, transactions
+
+### Component & Screen Specs
+- `components/component-library.md` — All reusable components
+- `screens/screen-specifications.md` — All screen layouts
+
+### Development Workflow
+- `docs/decisions/architecture-decisions.md` — ADRs
+- `docs/workflows/development-workflow.md` — How to add features, screens, components
+
+### Prompt Templates
+- `prompts/generate-feature.md` — Feature generation prompt
+- `prompts/generate-component.md` — Component generation prompt
+- `prompts/generate-screen.md` — Screen generation prompt
+
+### Before Generating Code
+1. Read `AI_RULES.md`
+2. Read relevant spec files for the task
+3. Check `components/component-library.md` for existing components
+4. Check `TECH_STACK.md` for approved libraries
+5. Follow `CODING_STANDARDS.md` and `DESIGN_SYSTEM.md`
+6. Place files per `FOLDER_STRUCTURE.md`
