@@ -1,24 +1,14 @@
-import Constants from "expo-constants";
 import { Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { db, DATABASE_NAME } from "@/db/client";
 import { SQLiteProvider } from "expo-sqlite";
-import { Suspense, useState, useEffect } from "react";
+import { Suspense } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migrations from "@/drizzle/migrations";
 
 export default function RootLayout() {
-  const [dataMigrationComplete, setDataMigrationComplete] = useState(false);
-  const { success: migrationsReady, error: migrationError } = useMigrations(
-    db,
-    migrations,
-  );
-
-  useEffect(() => {
-    if (migrationsReady) {
-    }
-  }, [migrationsReady]);
+  const { success: migrationsReady } = useMigrations(db, migrations);
 
   if (!migrationsReady) {
     return (

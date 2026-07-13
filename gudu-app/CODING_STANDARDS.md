@@ -12,8 +12,12 @@
 
 - Prefer `const` arrow functions
 - No classes
-- No default exports — use named exports
 - Prefix custom hooks with `use`
+
+## Exports
+
+- Expo Router screens must use `export default` (required by file-based routing)
+- All other modules use named exports
 
 ## Naming
 
@@ -21,7 +25,7 @@
 - Hooks: `useCamelCase` filenames, `useCamelCase` exports
 - Lib functions: `camelCase` filenames, `camelCase` exports
 - Constants: `camelCase` filenames, `camelCase` exports
-- Types/Interfaces: `PascalCase` (e.g., `SendState`, `IButton`)
+- Types/Interfaces: `PascalCase` (e.g., `HapticType`, `IButton`)
 - Files: `kebab-case.tsx` / `kebab-case.ts`
 
 ## Imports

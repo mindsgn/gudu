@@ -1,22 +1,14 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  ActivityIndicator,
-  FlatListComponent,
-  Dimensions,
-} from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { useRouter } from "expo-router";
-import { useCallback, useState, useEffect } from "react";
+import { useCallback } from "react";
 import { useFocusEffect } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { AnimatedHeaderScrollView } from "@/shared/ui/organisms/animated-header-scrollview";
 import { FlashList } from "@shopify/flash-list";
 import { Button } from "@/components/shared/pressable-card";
 
-export default function Loading() {
+export default function Home() {
   const router = useRouter();
-  const [isReady, setReady] = useState<boolean>();
 
   useFocusEffect(
     useCallback(() => {
@@ -50,13 +42,3 @@ export default function Loading() {
     </AnimatedHeaderScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "black",
-  },
-});

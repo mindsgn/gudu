@@ -5,7 +5,7 @@ import { useFocusEffect } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { Block } from "@/shared/ui/organisms/block";
 
-export default function Loading() {
+export default function Splash() {
   const router = useRouter();
   const [isReady, setReady] = useState<boolean>(false);
 
