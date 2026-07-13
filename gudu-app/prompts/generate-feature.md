@@ -38,10 +38,8 @@ Then create the following feature:
 7. No hardcoded colors or values
 8. TypeScript strict mode — no `any`
 9. Pure functions in `lib/` — no React dependencies
-10. Firestore calls in `lib/` — not in components
 
 ## Output
 - List all files created and modified
 - Show component structure
 - Show state flow
-- Show API interactions if any

@@ -13,23 +13,20 @@ Layout:
 
 Components used:
 - Block (Skia)
-- Screen container
 
 ## Home Screen (`app/home.tsx`)
 
 **Route:** `/home`
-**Purpose:** Main entry point showing wallet info and navigation
+**Purpose:** Main entry point with course navigation
 
 Layout:
-- AnimatedHeaderScrollView with "Gudu" title
-- FlashList with balance items and navigation buttons
-- Backdrop gradient on scroll
+- AnimatedHeaderScrollView with "home" title
+- FlashList with course navigation buttons
 
 Components used:
 - AnimatedHeaderScrollView
 - FlashList
-- Button
-- Screen container
+- Button (PressableCard)
 
 ## Backend Course List (`app/backend.tsx`)
 
@@ -37,15 +34,14 @@ Components used:
 **Purpose:** Display list of backend development topics
 
 Layout:
-- AnimatedHeaderScrollView with "Backend" title
+- AnimatedHeaderScrollView with "Backend" title and subtitle
 - FlashList of 11 course topics
 - Each item is a Button linking to `/lesson`
 
 Components used:
 - AnimatedHeaderScrollView
 - FlashList
-- Button
-- Screen container
+- Button (PressableCard)
 
 ## Lesson Screen (`app/lesson.tsx`)
 
@@ -54,15 +50,14 @@ Components used:
 
 Layout:
 - Scrollable markdown content
-- AnimatedScrollProgress FAB
-- CircularProgress indicator
+- AnimatedScrollProgress FAB with title and progress indicator
+- CircularProgress indicator on FAB
 - Auto-navigate to `/complete` at 100% scroll
 
 Components used:
 - AnimatedScrollProgress
 - CircularProgress
 - EnrichedMarkdownText
-- Screen container
 
 Data:
 - Content from `constants/backend.ts` (HTTP lesson markdown)
@@ -78,8 +73,7 @@ Layout:
 ## Adding New Screens
 
 1. Create `app/new-screen.tsx`
-2. Use Screen container
-3. Use AnimatedHeaderScrollView for scrollable content
-4. Handle loading, error, and empty states
-5. Add to navigation from relevant screen
-6. Update this file with screen specification
+2. Use AnimatedHeaderScrollView for scrollable content
+3. Handle loading, error, and empty states
+4. Add to navigation from relevant screen
+5. Update this file with screen specification

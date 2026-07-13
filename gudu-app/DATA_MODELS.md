@@ -13,71 +13,9 @@ Table: `user`
 
 Schema: `db/schema.ts`
 
-## Firestore (Remote)
-
-### Wallet
-Collection: `wallets/{address}`
-
-| Field | Type |
-|---|---|
-| address | string |
-| balances | WalletBalance[] |
-| currency | string |
-| pushTokens | string[] |
-
-### WalletBalance
-| Field | Type |
-|---|---|
-| tokenSymbol | string |
-| tokenAddress | string |
-| balance | string |
-| chainId | number |
-
-### Transaction
-Collection: `transactions/{txHash}`
-
-| Field | Type |
-|---|---|
-| txHash | string |
-| from | string |
-| to | string |
-| amount | string |
-| tokenSymbol | string |
-| chainId | number |
-| state | TransactionState |
-| kind | TransactionKind |
-| createdAt | timestamp |
-| updatedAt | timestamp |
-
 ## App Types
 
-### SendState
-Type union defined in `@/types/index.ts`:
-
-```
-"method" | "amount" | "recipient" | "review" | "auth" | "sending" | "sent"
-```
-
-### SendMethod
-Type union defined in `@/types/index.ts`:
-
-```
-"token" | "nft" | "point"
-```
-
-### TransactionState
-Defined in `lib/transactions.ts`:
-
-```
-"pending" | "confirmed" | "failed"
-```
-
-### TransactionKind
-Defined in `lib/transactions.ts`:
-
-```
-"send" | "swap" | "receive"
-```
+Shared types defined in `@/types/index.ts`.
 
 ## Rules
 

@@ -9,10 +9,8 @@
 5. Implement in this order:
    a. Types (`@types/` or feature types)
    b. Lib functions (`lib/`)
-   c. Hooks (`hooks/`)
-   d. Store (`store/`) if needed
-   e. Components (`components/shared/` or `shared/ui/`)
-   f. Screen (`app/`)
+   c. Components (`components/shared/` or `shared/ui/`)
+   d. Screen (`app/`)
 6. Test all states (loading, error, empty, success)
 7. Update this workflow if new patterns emerge
 
@@ -39,14 +37,6 @@
 2. Create `index.tsx`, `types.ts`, `conf.ts`
 3. Use Skia/Reanimated as needed
 4. Update component library docs
-
-## Adding a New Hook
-
-1. Check `hooks/` for existing patterns
-2. Create `hooks/use-thing-name.ts`
-3. Return `{ data, loading, error }` shape
-4. Clean up listeners on unmount
-5. No Firestore calls in components
 
 ## Adding a New Table
 

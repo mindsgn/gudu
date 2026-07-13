@@ -9,21 +9,6 @@
 
 ## Error Categories
 
-### Network Errors
-- Show retry option
-- Cache last known data when possible
-- Display "No internet connection" message
-
-### API Errors
-- Show error message from API when available
-- Fallback to generic message
-- Log full error for debugging
-
-### Validation Errors
-- Show inline field errors
-- Prevent form submission until valid
-- Clear errors on input change
-
 ### Database Errors
 - Show "Something went wrong" message
 - Log error details
@@ -47,8 +32,8 @@ return <Content data={data} />
 ## Error Messages
 
 - Use plain language, not technical jargon
-- Be specific when possible ("Failed to load balance" not "Error")
-- Always offer a next action (retry, go back, contact support)
+- Be specific when possible ("Failed to load lesson" not "Error")
+- Always offer a next action (retry, go back)
 
 ## Logging
 

@@ -8,13 +8,6 @@
 - Avoid inline functions in `renderItem`
 - Use `keyExtractor` with stable IDs
 
-## Images
-
-- Use WebP format when possible
-- Resize images before display
-- Use `expo-image` over `Image` when available
-- Lazy load off-screen images
-
 ## Re-renders
 
 - Memoize expensive computations with `useMemo`
@@ -31,9 +24,7 @@
 
 ## Memory
 
-- Clean up Firestore listeners on unmount
 - Cancel pending requests when component unmounts
-- Limit concurrent network requests
 - Use `getItemType` and stable keys for FlashList
 
 ## Bundle

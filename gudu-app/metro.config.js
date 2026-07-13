@@ -25,9 +25,5 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
 };
 
 config.resolver.sourceExts.push("sql");
-config.resolver.extraNodeModules = {
-  ...(config.resolver.extraNodeModules || {}),
-  events: require.resolve("events"),
-};
 
 module.exports = config;
