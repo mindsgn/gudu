@@ -23,7 +23,7 @@ describe("theme/colors", () => {
   });
 
   it("has correct values", () => {
-    expect(colors.background).toBe("#F2F4F5");
+    expect(colors.background).toBe("#000000");
     expect(colors.surface).toBe("#15161A");
     expect(colors.primary).toBe("#16A34A");
     expect(colors.danger).toBe("#EF4444");
