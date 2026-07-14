@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { StatePanel } from "@/components/shared/state-panel";
 import { ensureCurriculumSeeded } from "@/db/learning";
-import { Block } from "@/shared/ui/organisms/block";
+import { Logo } from "@/components/shared/logo";
 import { colors } from "@/theme/colors";
 
 const wait = (duration: number) => {
@@ -68,16 +68,7 @@ export default function Splash() {
 
   return (
     <View style={styles.centered}>
-      <Block
-        background={colors.surface}
-        base={colors.primaryMuted}
-        borderRadius={16}
-        borderWidth={4}
-        glow={colors.accent}
-        height={72}
-        speed={1}
-        width={72}
-      />
+      <Logo />
     </View>
   );
 }

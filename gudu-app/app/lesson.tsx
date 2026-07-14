@@ -6,7 +6,6 @@ import { EnrichedMarkdownText } from "react-native-enriched-markdown";
 import { useSharedValue } from "react-native-reanimated";
 import { CircularProgress } from "@/shared/ui/organisms/circular-progress";
 import { AnimatedScrollProgress } from "@/shared/ui/micro-interactions/animated-scroll-progress";
-import { StatePanel } from "@/components/shared/state-panel";
 import {
   completeLesson,
   getLessonScreenData,
@@ -17,6 +16,8 @@ import {
 } from "@/db/learning";
 import { colors } from "@/theme/colors";
 import { typography } from "@/theme/typography";
+import { Logo } from "@/components/shared/logo";
+
 
 type ScreenState =
   | { status: "loading" }
@@ -143,11 +144,9 @@ export default function LessonScreen() {
   if (state.status === "loading") {
     return (
       <View style={styles.centered}>
-        <StatePanel
-          message="Loading markdown and restoring your reading position."
-          progress
-          title="Preparing lesson"
-        />
+        <View style={styles.logoContainer}>
+          <Logo speed={5}/>
+        </View>
       </View>
     );
   }
@@ -155,14 +154,9 @@ export default function LessonScreen() {
   if (state.status === "error") {
     return (
       <View style={styles.centered}>
-        <StatePanel
-          actionLabel="Back Home"
-          message={state.message}
-          onAction={() => {
-            router.replace("/home");
-          }}
-          title="Lesson unavailable"
-        />
+        <View style={styles.logoContainer}>
+          <Logo speed={5} base={colors.danger}/>
+        </View>
       </View>
     );
   }
@@ -388,6 +382,9 @@ const styles = StyleSheet.create({
     ...typography.body,
     color: colors.surface,
     fontWeight: "700",
+  },
+  logoContainer: {
+    alignItems: "center",
   },
   fabCompleteSubtitle: {
     ...typography.caption,

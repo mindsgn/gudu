@@ -4,6 +4,7 @@ import { Button } from "@/components/shared/pressable-card";
 import { StatePanel } from "@/components/shared/state-panel";
 import { colors } from "@/theme/colors";
 import { typography } from "@/theme/typography";
+import { Logo } from "@/components/shared/logo";
 
 const parseParam = (value: string | string[] | undefined) => {
   return typeof value === "string" ? value : "";
@@ -46,30 +47,15 @@ export default function CompleteScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <Text style={styles.eyebrow}>Lesson complete</Text>
-        <Text style={styles.title}>{lessonTitle}</Text>
-        <Text style={styles.points}>+{pointsEarned} points</Text>
-        <View style={styles.statsRow}>
-          <View style={styles.statCard}>
-            <Text style={styles.statLabel}>Total score</Text>
-            <Text style={styles.statValue}>{totalPoints}</Text>
-          </View>
-          <View style={styles.statCard}>
-            <Text style={styles.statLabel}>Current streak</Text>
-            <Text style={styles.statValue}>{currentStreak} days</Text>
-          </View>
-        </View>
-        <View style={styles.nextCard}>
-          <Text style={styles.nextLabel}>Unlocked next</Text>
-          <Text style={styles.nextValue}>
-            {nextLessonTitle || "You have finished the available sequence."}
-          </Text>
-        </View>
+        <Text style={styles.points}>+{pointsEarned}</Text>
+        <Text style={styles.pointsTitle}>points</Text>
+      </View>
+      <View style={styles.buttonContainer}>
         <Button
           accessibilityLabel="Continue next lesson"
           backgroundColor={colors.accent}
           color={colors.surface}
-          label={nextLessonId ? "Continue Next Lesson" : "Return Home"}
+          label={nextLessonId ? "CONTINUE" : "RETURN"}
           onPress={() => {
             if (nextLessonId) {
               router.replace({
@@ -84,15 +70,6 @@ export default function CompleteScreen() {
           testID="complete-next-button"
           width={280}
         />
-        <Button
-          accessibilityLabel="Exit to home"
-          label="Exit to Home"
-          onPress={() => {
-            router.replace("/home");
-          }}
-          testID="complete-home-button"
-          width={280}
-        />
       </View>
     </View>
   );
@@ -101,7 +78,6 @@ export default function CompleteScreen() {
 const styles = StyleSheet.create({
   centered: {
     flex: 1,
-    backgroundColor: colors.background,
     justifyContent: "center",
     paddingHorizontal: 16,
   },
@@ -112,7 +88,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   card: {
-    backgroundColor: colors.surface,
     borderRadius: 24,
     padding: 24,
     gap: 16,
@@ -129,6 +104,13 @@ const styles = StyleSheet.create({
   points: {
     ...typography.subtitle,
     color: colors.buttonTextBackground,
+    fontSize: 100,
+    alignSelf: "center"
+  },
+  pointsTitle: {
+    ...typography.subtitle,
+    color: colors.buttonTextBackground,
+    alignSelf: "center"
   },
   statsRow: {
     flexDirection: "row",
@@ -165,4 +147,10 @@ const styles = StyleSheet.create({
     ...typography.body,
     color: colors.buttonTextBackground,
   },
+  buttonContainer: {
+    bottom: 0,
+    alignSelf: "center",
+    position: "absolute",
+    paddingVertical: 20,
+  }
 });
