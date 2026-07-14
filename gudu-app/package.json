@@ -58,7 +58,8 @@
     "web": "expo start --web",
     "test": "jest",
     "test-app": "npx tsc --noEmit && npx jest --runInBand",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "doctor": "npx react-doctor@latest"
   },
   "private": true
 }
