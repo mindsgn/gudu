@@ -206,7 +206,7 @@ export default function LessonScreen() {
         renderInitialContent={() => (
           <View style={styles.fabContent}>
             <View style={styles.fabTextContent}>
-              <Text style={styles.fabTitle}>{data.title}</Text>
+              <Text style={styles.fabTitle}>{data.moduleTitle}</Text>
               <Text style={styles.fabSubtitle}>{data.moduleTitle}</Text>
             </View>
             <CircularProgress
