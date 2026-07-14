@@ -13,6 +13,7 @@ import {
 import { AnimatedHeaderScrollView } from "@/shared/ui/organisms/animated-header-scrollview";
 import { colors } from "@/theme/colors";
 import { typography } from "@/theme/typography";
+import { Logo } from "@/components/shared/logo";
 
 type ListItem =
   | {
@@ -97,11 +98,9 @@ export default function CourseScreen() {
   if (state.status === "loading") {
     return (
       <View style={styles.centered}>
-        <StatePanel
-          message="Loading lessons and unlock state."
-          progress
-          title="Preparing course"
-        />
+        <View style={styles.logoContainer}>
+          <Logo speed={5}/>
+        </View>
       </View>
     );
   }
@@ -109,14 +108,9 @@ export default function CourseScreen() {
   if (state.status === "error") {
     return (
       <View style={styles.centered}>
-        <StatePanel
-          actionLabel="Retry"
-          message={state.message}
-          onAction={() => {
-            void loadCourse();
-          }}
-          title="Course unavailable"
-        />
+        <View style={styles.logoContainer}>
+          <Logo speed={0.2} base={colors.danger}/>
+        </View>
       </View>
     );
   }
@@ -209,6 +203,9 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     padding: 20,
     gap: 12,
+  },
+  logoContainer: {
+    alignItems: "center",
   },
   summaryTitle: {
     ...typography.body,
